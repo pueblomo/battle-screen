@@ -1,18 +1,20 @@
-import {getMonsterType} from "@/lib/utils.ts";
+import {capitalizeFirstLetter, getMonsterType} from "@/lib/utils.ts";
+import Divider from "@/components/stat-block/layout/divider.tsx";
+import type {Monster} from "@/lib/monster-types.ts";
 
 type MonsterNameProps = {
-    name: string;
-    size: string[];
-    type: string | { type: string | { choose: string[] }; tags?: string[] };
-    alignment: string[] | undefined;
+    monster: Monster
 };
 
 export default function Heading({
-                                    name,
-                                    size,
-                                    type,
-                                    alignment
+                                    monster
                                 }: MonsterNameProps) {
+    const {
+        name,
+        size,
+        type,
+        alignment, treasure
+    } = monster
 
     function getSize(sizes: string[]): string {
         return sizes.map((size) => {
@@ -60,15 +62,20 @@ export default function Heading({
 
 
     return (
-        <div className="">
+        <div>
             <div
-                className="text-red-800 text-left font-bold tracking-wider font-[family-name:--font-family-libre-baskerville] text-xl"
+                className="text-red-800 text-left font-bold tracking-wider font-[family-name:--font-family-libre-baskerville] text-2xl"
                 style={{fontVariant: 'small-caps'}}>
                 {name}
             </div>
+            <Divider/>
             <div className="italic text-left text-xs text-gray-600">
                 {getSize(size)} {getMonsterType(type)}, {getAlignment(alignment)}
             </div>
+            {treasure && <div className="flex gap-1 italic text-left text-xs text-gray-600">
+                <p className="font-bold">Treasure</p>
+                {treasure.map((tr) => capitalizeFirstLetter(tr)).join(", ")}
+            </div>}
         </div>
     )
 }

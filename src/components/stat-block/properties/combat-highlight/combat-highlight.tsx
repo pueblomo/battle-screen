@@ -1,8 +1,8 @@
 import type {MonsterAC, MonsterCR, MonsterHP, MonsterSpeed} from "@/lib/monster-types.ts";
-import PropertyLine from "@/components/pages/battleground/property-line.tsx";
+import PropertyLine from "@/components/stat-block/properties/property-line.tsx";
 import {calculateStatBonus, getProficiencyBonus} from "@/lib/utils.ts";
 
-interface BasePropertiesProps {
+interface CombatHighlightProps {
     ac: (number | MonsterAC)[],
     hp: MonsterHP,
     speed: MonsterSpeed,
@@ -11,7 +11,7 @@ interface BasePropertiesProps {
     dex: number
 }
 
-export default function BaseProperties({ac, hp, speed, cr, initiative, dex}: BasePropertiesProps) {
+export default function CombatHighlight({ac, hp, speed, cr, initiative, dex}: CombatHighlightProps) {
 
     function getAc(): string {
         return ac
@@ -75,15 +75,16 @@ export default function BaseProperties({ac, hp, speed, cr, initiative, dex}: Bas
     }
 
     return (
-        <div className="flex gap-4">
-            <div>
-                <PropertyLine heading={"Armor Class"} description={getAc()}/>
-                <PropertyLine heading={"Hit Points"} description={getHp()}/>
-                <PropertyLine heading={"Speed"} description={getSpeed()}/>
+        <div>
+            <div className="flex gap-32">
+                <PropertyLine heading={"AC"} description={getAc()}/>
+                <PropertyLine heading={"Initiative"}
+                              description={`${getInitiative() < 0 ? getInitiative() : "+" + getInitiative()}`}/>
             </div>
-            <div>
-                <PropertyLine heading={"Initiative"} description={`+${getInitiative()}`}/>
-            </div>
+            <PropertyLine heading={"HP"} description={getHp()}/>
+            <PropertyLine heading={"Speed"} description={getSpeed()}/>
+
+
         </div>
     )
 }

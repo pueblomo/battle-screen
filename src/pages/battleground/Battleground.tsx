@@ -1,6 +1,6 @@
 import {useContext} from "react";
 import {MonsterContext} from "@/contexts/monster-context.tsx";
-import StatBlock from "@/components/pages/battleground/stat-block.tsx";
+import StatBlock from "@/components/stat-block/stat-block.tsx";
 
 export default function Battleground() {
     const {selectedMonsters} = useContext(MonsterContext)

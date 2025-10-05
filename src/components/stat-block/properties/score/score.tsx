@@ -1,18 +1,13 @@
-import ModSaveLine from "@/components/pages/battleground/mod-save-line.tsx";
-import ScoreLine from "@/components/pages/battleground/score-line.tsx";
+import ModSaveLine from "@/components/stat-block/properties/score/mod-save-line.tsx";
+import ScoreLine from "@/components/stat-block/properties/score/score-line.tsx";
+import type {Monster} from "@/lib/monster-types.ts";
 
 interface ScoreProps {
-    str: number,
-    dex: number,
-    con: number,
-    int: number,
-    wis: number,
-    cha: number,
-    save?: Record<string, string>
+    monster: Monster
 }
 
-export default function Score({str, dex, con, int, wis, cha, save}: ScoreProps) {
-
+export default function Score({monster}: ScoreProps) {
+    const {str, dex, con, int, wis, cha, save} = monster
     return (
         <div className="grid grid-cols-3 my-2">
             <div>

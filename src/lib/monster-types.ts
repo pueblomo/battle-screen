@@ -28,6 +28,9 @@ export interface Monster {
     spellcasting?: MonsterSpellcasting[];
     environment?: string[];
     treasure?: string[];
+    gear?: (string | MonsterGear)[];
+    vulnerable?: string[];
+    resist?: string[];
     immune?: string[];
     conditionImmune?: string[];
     pbNote?: string;
@@ -53,6 +56,11 @@ export interface Monster {
     savingThrowForcedSpell?: string[];
     savingThrowForcedLegendary?: string[];
     dragonAge?: string;
+}
+
+export interface MonsterGear {
+    item: string,
+    quantity: number
 }
 
 export interface MonsterAC {

@@ -11,8 +11,6 @@ interface MonsterContextType {
 
 const PATHS = [
     "/bestiary-mm.json",
-    "/bestiary-dm.json",
-    "/bestiary-mordekai-presents.json"
 ]
 
 const MonsterContext = createContext<MonsterContextType>({
