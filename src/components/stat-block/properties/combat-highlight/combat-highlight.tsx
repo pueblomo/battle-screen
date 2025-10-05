@@ -31,36 +31,38 @@ export default function CombatHighlight({ac, hp, speed, cr, initiative, dex}: Co
         return `${hp.average} ${hp.formula ? `(${hp.formula})` : ''}`
     }
 
+    function getSpeedNumber(speed: number | { number: number; condition?: string }): string {
+        if (typeof speed === "number") return `${speed} ft.`
+
+        const {number, condition} = speed
+        return `${number} ft. ${condition ? `${condition}` : ""}`
+    }
+
     function getSpeed(): string {
         const parts: string[] = []
 
         if (speed.walk) {
-            parts.push(`${speed.walk} ft.`)
+            parts.push(getSpeedNumber(speed.walk))
         }
 
         if (speed.fly !== undefined) {
-            if (typeof speed.fly === "number") {
-                parts.push(`fly ${speed.fly} ft.${speed.canHover ? " (hover)" : ""}`);
-            } else {
-                const {number, condition} = speed.fly;
-                parts.push(
-                    `fly ${number} ft.${condition ? ` ${condition}` : ""}${
-                        speed.canHover ? " (hover)" : ""
-                    }`
-                );
-            }
+            parts.push(`fly ${getSpeedNumber(speed.fly)}`);
         }
 
         if (speed.swim !== undefined) {
-            parts.push(`swim ${speed.swim} ft.`);
+            parts.push(`swim ${getSpeedNumber(speed.swim)}`);
         }
 
         if (speed.climb !== undefined) {
-            parts.push(`climb ${speed.climb} ft.`);
+            parts.push(`climb ${getSpeedNumber(speed.climb)}`);
         }
 
         if (speed.burrow !== undefined) {
-            parts.push(`burrow ${speed.burrow} ft.`);
+            parts.push(`burrow ${getSpeedNumber(speed.burrow)}`);
+        }
+
+        if (speed.canHover) {
+            parts.push("(hover)")
         }
 
         return parts.join(", ")

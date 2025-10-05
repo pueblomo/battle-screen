@@ -75,11 +75,11 @@ export interface MonsterHP {
 }
 
 export interface MonsterSpeed {
-    walk?: number;
+    walk?: number | { number: number; condition?: string };
     fly?: number | { number: number; condition?: string };
-    swim?: number;
-    climb?: number;
-    burrow?: number;
+    swim?: number | { number: number; condition?: string };
+    climb?: number | { number: number; condition?: string };
+    burrow?: number | { number: number; condition?: string };
     canHover?: boolean;
 }
 

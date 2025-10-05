@@ -50,7 +50,7 @@ export default function OtherProperties({monster}: OtherPropertiesProps) {
                 <PropertyLine heading={"Gear"} description={getGear(gear)}/>}
             {senses &&
                 <PropertyLine heading={"Senses"}
-                              description={`${senses.map((sense) => capitalizeFirstLetter(sense)).join("; ")}; Passive Perception ${passive}`}/>
+                              description={`${senses.map((sense) => capitalizeFirstLetter(sense)).join(", ")}; Passive Perception ${passive}`}/>
             }
             {languages && <PropertyLine heading={"Languages"}
                                         description={languages.map((language) => capitalizeFirstLetter(language)).join("; ")}/>}
