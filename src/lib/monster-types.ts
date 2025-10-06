@@ -1,11 +1,23 @@
+// D&D 5e size categories
+type MonsterSize = "T" | "S" | "M" | "L" | "H" | "G";
+
+// D&D 5e alignment components
+type AlignmentComponent = "L" | "N" | "C" | "G" | "E" | "U";
+
+// Monster type can be simple string or object with tags
+type MonsterType = string | {
+    type: string;
+    tags?: string[];
+};
+
 export interface Monster {
     name: string;
     source: string;
     page: number;
-    size: string[];
-    type: string | { type: string | { choose: string[] }; tags?: string[] };
-    alignment?: string[];
-    ac: (number | MonsterAC)[];
+    size: MonsterSize[];
+    type: MonsterType;
+    alignment?: AlignmentComponent[];
+    ac: number[];
     hp: MonsterHP;
     speed: MonsterSpeed;
     str: number;
@@ -20,9 +32,11 @@ export interface Monster {
     passive?: number;
     languages?: string[];
     cr?: string | MonsterCR;
-    trait?: MonsterFeature[];
-    action?: MonsterFeature[];
-    legendary?: MonsterFeature[];
+    trait?: BaseMonsterFeature[];
+    action?: BaseMonsterFeature[];
+    legendary?: BaseMonsterFeature[];
+    bonus?: BaseMonsterFeature[];
+    reaction?: BaseMonsterFeature[];
     legendaryActionsLair?: number;
     legendaryGroup?: { name: string; source: string };
     spellcasting?: MonsterSpellcasting[];
@@ -40,6 +54,8 @@ export interface Monster {
     hasToken?: boolean;
     hasFluff?: boolean;
     hasFluffImages?: boolean;
+    srd52?: boolean;
+    basicRules2024?: boolean;
 
     // Tags
     traitTags?: string[];
@@ -58,15 +74,18 @@ export interface Monster {
     dragonAge?: string;
 }
 
+export interface MonsterCR {
+    cr: string;
+    xpLair?: number
+}
+
+
 export interface MonsterGear {
     item: string,
     quantity: number
 }
 
-export interface MonsterAC {
-    ac: number;
-    from?: string[];
-}
+// Removed MonsterAC interface as AC is always just an array of numbers in the actual data
 
 export interface MonsterHP {
     average?: number;
@@ -83,21 +102,31 @@ export interface MonsterSpeed {
     canHover?: boolean;
 }
 
-export interface MonsterCR {
-    cr: string;
-    xp?: number;
-    xpLair?: number;
+// Recursive type definitions for monster feature entries
+export type Entry = string | EntryList | EntryListItem;
+
+export interface EntryList {
+    type: "list";
+    style?: string;
+    items: EntryListItem[];
 }
 
-export interface MonsterFeature {
+export interface EntryListItem {
+    type: "item";
+    name?: string;
+    entries: Entry[];
+}
+
+// Base interface for all monster features
+export interface BaseMonsterFeature {
     name: string;
-    entries: (string | MonsterFeature)[];
+    entries: Entry[];
 }
 
 export interface MonsterSpellcasting {
     name: string;
     type: "spellcasting";
-    headerEntries: string[];
+    headerEntries: Entry[];
     will?: string[];
     daily?: Record<string, string[]>;
     ability: string;

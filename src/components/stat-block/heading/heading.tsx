@@ -53,8 +53,10 @@ export default function Heading({
                     return "True"
                 case "E":
                     return "Evil"
+                case "U":
+                    return "Unaligned"
                 default:
-                    return ""
+                    return alignment
             }
 
         }).join(" ")
@@ -73,7 +75,7 @@ export default function Heading({
                 {getSize(size)} {getMonsterType(type)}, {getAlignment(alignment)}
             </div>
             {treasure && <div className="flex gap-1 italic text-left text-xs text-gray-600">
-                <p className="font-bold">Treasure</p>
+                <p className="font-bold">Treasure:</p>
                 {treasure.map((tr) => capitalizeFirstLetter(tr)).join(", ")}
             </div>}
         </div>

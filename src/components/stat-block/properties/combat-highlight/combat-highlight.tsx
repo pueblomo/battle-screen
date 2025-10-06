@@ -1,9 +1,9 @@
-import type {MonsterAC, MonsterCR, MonsterHP, MonsterSpeed} from "@/lib/monster-types.ts";
+import type {MonsterCR, MonsterHP, MonsterSpeed} from "@/lib/monster-types.ts";
 import PropertyLine from "@/components/stat-block/properties/property-line.tsx";
 import {calculateStatBonus, getProficiencyBonus} from "@/lib/utils.ts";
 
 interface CombatHighlightProps {
-    ac: (number | MonsterAC)[],
+    ac: (number)[],
     hp: MonsterHP,
     speed: MonsterSpeed,
     cr?: string | MonsterCR,
@@ -16,13 +16,7 @@ export default function CombatHighlight({ac, hp, speed, cr, initiative, dex}: Co
     function getAc(): string {
         return ac
             .map((entry) => {
-                if (typeof entry === "number") {
-                    return entry.toString();
-                } else {
-                    return entry.from && entry.from.length > 0
-                        ? `${entry.ac} (${entry.from.join(", ")})`
-                        : `${entry.ac}`;
-                }
+                return entry.toString();
             })
             .join(", ");
     }

@@ -11,7 +11,7 @@ import {ThemeProvider} from "@/components/theme/theme-provider.tsx";
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
             <BrowserRouter>
                 <MonsterProvider>
                     <DatatableProvider>

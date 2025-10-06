@@ -30,7 +30,7 @@ export function DataTable<TData, TValue>({
     const [sorting, setSorting] = useState<SortingState>([])
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
     const [pagination, setPagination] = useState<PaginationState>({pageIndex: 0, pageSize: 15})
-    const {addMonster} = useContext(MonsterContext)
+    const {setSelectedMonsters} = useContext(MonsterContext)
     const {rowSelection, setRowSelection} = useContext(DatatableContext)
 
     const table = useReactTable({
@@ -53,10 +53,13 @@ export function DataTable<TData, TValue>({
     })
 
     useEffect(() => {
-        if (table.getFilteredSelectedRowModel().rows.length > 0) {
-            table.getFilteredSelectedRowModel().rows.forEach((row) => addMonster(row.original as Monster))
+        if (table.getSelectedRowModel().rows.length > 0) {
+            const monsters = table.getSelectedRowModel().rows.map((tRow) => tRow.original as Monster)
+            setSelectedMonsters(monsters)
+        } else {
+            setSelectedMonsters([])
         }
-    }, [rowSelection, table, addMonster])
+    }, [rowSelection, table, setSelectedMonsters])
 
 
     return (

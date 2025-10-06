@@ -6,7 +6,7 @@ interface MonsterContextType {
     monsters: Monster[],
     selectedMonsters: Monster[],
     clearSelectedMonsters: () => void,
-    addMonster: (monster: Monster) => void
+    setSelectedMonsters: (monster: Monster[]) => void
 }
 
 const PATHS = [
@@ -18,7 +18,7 @@ const MonsterContext = createContext<MonsterContextType>({
     selectedMonsters: [],
     clearSelectedMonsters: () => {
     },
-    addMonster: () => {
+    setSelectedMonsters: () => {
     }
 })
 
@@ -28,12 +28,6 @@ const MonsterProvider = ({children}: Readonly<{ children: ReactNode }>) => {
 
     function clearSelectedMonsters() {
         setSelectedMonsters([])
-    }
-
-    function addMonster(monster: Monster) {
-        if (!selectedMonsters.some(m => m.name === monster.name)) {
-            setSelectedMonsters((prevState) => [...prevState, monster])
-        }
     }
 
     function loadMonsters() {
@@ -50,7 +44,7 @@ const MonsterProvider = ({children}: Readonly<{ children: ReactNode }>) => {
     }, [])
 
     return (
-        <MonsterContext.Provider value={{monsters, selectedMonsters, addMonster, clearSelectedMonsters}}>
+        <MonsterContext.Provider value={{monsters, selectedMonsters, setSelectedMonsters, clearSelectedMonsters}}>
             {children}
         </MonsterContext.Provider>
     )
