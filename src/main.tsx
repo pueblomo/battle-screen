@@ -8,6 +8,7 @@ import MainMenu from "@/components/main-menu/main-menu.tsx";
 import Battleground from "@/pages/battleground/Battleground.tsx";
 import {DatatableProvider} from "@/contexts/datatable-context.tsx";
 import {ThemeProvider} from "@/components/theme/theme-provider.tsx";
+import Treasure from "@/pages/treasure/Treasure.tsx";
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -19,6 +20,7 @@ createRoot(document.getElementById('root')!).render(
                             <Route element={<MainMenu/>}>
                                 <Route path="/" element={<App/>}/>
                                 <Route path="/battleground" element={<Battleground/>}/>
+                                <Route path="/treasure" element={<Treasure/>}/>
                             </Route>
                         </Routes>
                     </DatatableProvider>

@@ -64,13 +64,18 @@ export function DataTable<TData, TValue>({
 
     return (
         <div>
-            <div className="flex items-center py-4">
+            <div className="flex items-center py-4 gap-2">
                 <Input
                     placeholder="Filter names..."
                     value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
                     onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
                     className="max-w-sm"
                 />
+                <Button onClick={() => table.getColumn("name")?.setFilterValue("")}>Clear Filter</Button>
+                <Button onClick={() => {
+                    setSelectedMonsters([])
+                    table.toggleAllRowsSelected(false)
+                }}>Clear Selection</Button>
             </div>
             <div className="overflow-hidden rounded-md border">
                 <Table>
