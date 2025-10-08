@@ -1,6 +1,6 @@
 import {createContext, type ReactNode, useEffect, useState} from "react";
 import type {Monster} from "../lib/monster-types.ts";
-import {getMonsters} from "@/service/api-service.ts";
+import {apiGetMonsters} from "@/service/api-service.ts";
 
 interface MonsterContextType {
     monsters: Monster[],
@@ -32,7 +32,7 @@ const MonsterProvider = ({children}: Readonly<{ children: ReactNode }>) => {
 
     function loadMonsters() {
         Promise.all(PATHS.map(async (path) => {
-            const response = await getMonsters(path)
+            const response = await apiGetMonsters(path)
             return response.data.monster
         })).then((monsters) => {
             setMonsters(monsters.flat())
