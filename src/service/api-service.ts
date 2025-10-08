@@ -25,11 +25,11 @@ const api = setupCache(axios, {
     ttl: 1000 * 60 * 60
 })
 
-export function getMonsters(path: string) {
+export function apiGetMonsters(path: string) {
     return api.get<{ monster: Monster[] }>(path)
 }
 
-export async function getTreasureTableCall(type: string, rarity: string): Promise<TreasureRow[]> {
+export async function apiGetTreasureTable(type: string, rarity: string): Promise<TreasureRow[]> {
     const result = await api.get(`/${type}-${rarity}.csv`)
     const parsed = Papa.parse<Record<string, string>>(result.data, papaConfig)
     return parsed.data.map((row) => (

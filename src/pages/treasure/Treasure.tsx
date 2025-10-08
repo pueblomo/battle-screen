@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {getItemRarityTable, getTreasureTableCall, type RarityRow, type TreasureRow} from "@/service/api-service.ts";
+import {apiGetTreasureTable, getItemRarityTable, type RarityRow, type TreasureRow} from "@/service/api-service.ts";
 import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
 
@@ -16,7 +16,7 @@ export default function Treasure() {
     }
 
     async function getTreasureTable(type: string, rarity: string) {
-        const result = await getTreasureTableCall(type, rarity)
+        const result = await apiGetTreasureTable(type, rarity)
         setTreasureTable(result)
     }
 
