@@ -69,6 +69,8 @@ pnpm dev
 
 ### Docker Deployment
 
+#### Local Development
+
 Build and run the application using Docker:
 
 ```bash
@@ -80,6 +82,78 @@ docker run -p 8080:80 battle-screen
 ```
 
 The application will be available at `http://localhost:8080`
+
+#### Raspberry Pi Deployment
+
+**Quick Deploy Script**
+
+Use the automated deployment script (recommended):
+
+```bash
+# Make the script executable (first time only)
+chmod +x deploy-to-pi.sh
+
+# Deploy to Raspberry Pi (default port 80, user pi)
+./deploy-to-pi.sh raspberrypi.local
+
+# Specify custom port
+./deploy-to-pi.sh raspberrypi.local 8080
+
+# Specify custom user
+./deploy-to-pi.sh raspberrypi.local 80 myuser
+
+# All custom options
+./deploy-to-pi.sh 192.168.1.100 8080 admin
+```
+
+**Script Arguments:**
+- `[hostname]` - Pi hostname or IP (default: raspberrypi.local)
+- `[port]` - HTTP port to expose (default: 80)
+- `[user]` - SSH user (default: pi)
+
+The script will build the ARM image, transfer it to your Pi, and start the container automatically.
+
+**Option 1: Manual Build and Transfer**
+
+Build for ARM architecture on your Mac and transfer to Raspberry Pi:
+
+```bash
+# Set up Docker buildx (one-time setup)
+docker buildx create --name multiarch --use
+docker buildx inspect --bootstrap
+
+# Build for Raspberry Pi ARM64 (Pi 4, Pi 5, Pi 400, Pi 3B+ 64-bit OS)
+docker buildx build --platform linux/arm64 -t battle-screen:arm64 --load .
+
+# Save the image to a tar file
+docker save battle-screen:arm64 -o battle-screen-arm64.tar
+
+# Transfer to Raspberry Pi (replace with your Pi's IP)
+scp battle-screen-arm64.tar pi@raspberrypi.local:~/
+
+# On Raspberry Pi: Load and run the image
+ssh pi@raspberrypi.local
+docker load -i battle-screen-arm64.tar
+docker run -d -p 80:80 --name battle-screen --restart unless-stopped battle-screen:arm64
+```
+
+**Option 2: Using Docker Hub or Registry**
+
+```bash
+# Build and push to Docker Hub (replace 'yourusername')
+docker buildx build --platform linux/arm64 -t yourusername/battle-screen:latest --push .
+
+# On Raspberry Pi: Pull and run
+docker pull yourusername/battle-screen:latest
+docker run -d -p 80:80 --name battle-screen --restart unless-stopped yourusername/battle-screen:latest
+```
+
+**Advanced Options:**
+
+For older Raspberry Pi 3 with 32-bit OS, set the platform via environment variable:
+```bash
+PLATFORM=linux/arm/v7 ./deploy-to-pi.sh raspberrypi.local
+```
 
 ## Project Structure
 
