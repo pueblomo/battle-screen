@@ -67,6 +67,20 @@ pnpm dev
 - `pnpm preview` - Preview production build
 - `pnpm lint` - Run ESLint
 
+### Docker Deployment
+
+Build and run the application using Docker:
+
+```bash
+# Build the Docker image
+docker build -t battle-screen .
+
+# Run the container
+docker run -p 8080:80 battle-screen
+```
+
+The application will be available at `http://localhost:8080`
+
 ## Project Structure
 
 ```
