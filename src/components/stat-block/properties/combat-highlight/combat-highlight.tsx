@@ -1,6 +1,6 @@
 import type {MonsterCR, MonsterHP, MonsterSpeed} from "@/lib/monster-types.ts";
 import PropertyLine from "@/components/stat-block/properties/property-line.tsx";
-import {calculateStatBonus, getProficiencyBonus} from "@/lib/utils.ts";
+import {calculateStatBonus, getProficiencyBonus} from "@/lib/utils.tsx";
 
 interface CombatHighlightProps {
     ac: (number)[],

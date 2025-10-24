@@ -3,7 +3,7 @@ import type {ColumnDef} from "@tanstack/react-table";
 import {ArrowUpDown} from "lucide-react";
 import {Button} from "@/components/ui/button.tsx";
 import {Checkbox} from "@/components/ui/checkbox.tsx";
-import {getMonsterType} from "@/lib/utils.ts";
+import {getMonsterType} from "@/lib/utils.tsx";
 
 export const columns: ColumnDef<Monster>[] = [
     {

@@ -1,6 +1,6 @@
-import type {Monster, MonsterCR, MonsterGear} from "@/lib/monster-types.ts";
+import type {ConditionImune, Monster, MonsterCR, MonsterGear} from "@/lib/monster-types.ts";
 import PropertyLine from "@/components/stat-block/properties/property-line.tsx";
-import {calculateExperiencePoints, capitalizeFirstLetter, getProficiencyBonus} from "@/lib/utils.ts";
+import {calculateExperiencePoints, capitalizeFirstLetter, getProficiencyBonus} from "@/lib/utils.tsx";
 
 interface OtherPropertiesProps {
     monster: Monster
@@ -22,12 +22,34 @@ export default function OtherProperties({monster}: OtherPropertiesProps) {
         return `${crValue} ${xp}`
     }
 
-    function getImmunities(immune: string[] | undefined, conImmune: string[] | undefined): string {
-        let immunities = ''
-        if (immune) immunities = immune.map((imm) => capitalizeFirstLetter(imm)).join(", ")
-        if (immune && conImmune) immunities += "; "
-        if (conImmune) immunities += conImmune.map((conIm) => capitalizeFirstLetter(conIm)).join(", ")
-        return immunities
+    function getImmunities(immune: string[] | undefined, conImmune: string[] | ConditionImune | ConditionImune[] | undefined): string {
+        const parts: string[] = []
+        
+        if (immune) {
+            parts.push(immune.map((imm) => capitalizeFirstLetter(imm)).join(", "))
+        }
+        
+        if (conImmune) {
+            if (Array.isArray(conImmune)) {
+                // Check if it's an array of strings or array of ConditionImune objects
+                if (conImmune.length > 0 && typeof conImmune[0] === 'string') {
+                    // Array of strings
+                    parts.push(conImmune.map((conIm) => capitalizeFirstLetter(conIm as string)).join(", "))
+                } else {
+                    // Array of ConditionImune objects
+                    (conImmune as ConditionImune[]).forEach((condImObj) => {
+                        const conditions = condImObj.conditionImmune.map((conIm) => capitalizeFirstLetter(conIm)).join(", ")
+                        parts.push(`${conditions} ${condImObj.note}`)
+                    })
+                }
+            } else {
+                // Single ConditionImune object
+                const conditions = conImmune.conditionImmune.map((conIm) => capitalizeFirstLetter(conIm)).join(", ")
+                parts.push(`${conditions} ${conImmune.note}`)
+            }
+        }
+        
+        return parts.join("; ")
     }
 
     function getGear(checkedGear: (string | MonsterGear)[]): string {

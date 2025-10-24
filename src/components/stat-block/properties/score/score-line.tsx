@@ -1,4 +1,4 @@
-import {calculateStatBonus} from "@/lib/utils.ts";
+import {calculateStatBonus} from "@/lib/utils.tsx";
 
 interface ScoreLineProp {
     stat: string,
