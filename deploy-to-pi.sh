@@ -21,28 +21,19 @@ echo "Port: ${PORT}"
 echo "Platform: ${PLATFORM}"
 echo ""
 
-# Check if buildx is available
-if ! docker buildx version &> /dev/null; then
-    echo "❌ Docker buildx not found. Please install Docker Desktop or buildx plugin."
+# Check if podman is available
+if ! podman version &> /dev/null; then
+    echo "❌ Podman not found. Please install Podman."
     exit 1
 fi
 
-# Create buildx builder if it doesn't exist
-if ! docker buildx inspect multiarch &> /dev/null; then
-    echo "📦 Creating buildx builder..."
-    docker buildx create --name multiarch --use
-    docker buildx inspect --bootstrap
-else
-    docker buildx use multiarch
-fi
-
 # Build the image for ARM
-echo "🔨 Building Docker image for ${PLATFORM}..."
-docker buildx build --platform ${PLATFORM} -t ${IMAGE_NAME}:arm64 --load .
+echo "🔨 Building image for ${PLATFORM}..."
+podman build --platform ${PLATFORM} -t ${IMAGE_NAME}:arm64 .
 
 # Save the image to a tar file
 echo "💾 Saving image to tar file..."
-docker save ${IMAGE_NAME}:arm64 -o ${IMAGE_NAME}-arm64.tar
+podman save ${IMAGE_NAME}:arm64 -o ${IMAGE_NAME}-arm64.tar
 
 # Get file size
 FILE_SIZE=$(du -h ${IMAGE_NAME}-arm64.tar | cut -f1)
@@ -68,7 +59,7 @@ ssh ${PI_USER}@${PI_HOST} << EOF
         -p ${PORT}:80 \
         --name ${CONTAINER_NAME} \
         --restart unless-stopped \
-        ${IMAGE_NAME}:arm64
+        localhost/${IMAGE_NAME}:arm64
     
     echo "Cleaning up tar file..."
     rm ${IMAGE_NAME}-arm64.tar

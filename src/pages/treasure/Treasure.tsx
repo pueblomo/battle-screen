@@ -41,7 +41,7 @@ export default function Treasure() {
                 <Table>
                     <TableCaption>Item Rarity</TableCaption>
                     <TableHeader>
-                        <TableRow>
+                        <TableRow className="bg-[#CBB994]">
                             <TableHead className="text-center">Levels 1–4</TableHead>
                             <TableHead className="text-center">Levels 5–10</TableHead>
                             <TableHead className="text-center">Levels 11–16</TableHead>
@@ -50,8 +50,8 @@ export default function Treasure() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {rarityTable.map((rarityItem) => (
-                            <TableRow key={rarityItem.rarity}>
+                        {rarityTable.map((rarityItem, index) => (
+                            <TableRow key={rarityItem.rarity} className={`${index % 2 === 0 ? "bg-[#F7F3E8]" : "bg-[#EDE5D1]"} hover:bg-[#D8CBA8]`}>
                                 <TableCell>{rarityItem.level1}</TableCell>
                                 <TableCell>{rarityItem.level2}</TableCell>
                                 <TableCell>{rarityItem.level3}</TableCell>
@@ -66,7 +66,7 @@ export default function Treasure() {
             <div className="flex flex-col gap-2 justify-center py-4">
                 <div className="flex gap-2 justify-center">
                     <Select onValueChange={setType}>
-                        <SelectTrigger className="w-40">
+                        <SelectTrigger className="w-40 bg-[#F7F3E8] drop-shadow-lg">
                             <SelectValue placeholder="Type"/>
                         </SelectTrigger>
                         <SelectContent>
@@ -77,7 +77,7 @@ export default function Treasure() {
                         </SelectContent>
                     </Select>
                     <Select onValueChange={setRarity}>
-                        <SelectTrigger className="w-40">
+                        <SelectTrigger className="w-40 bg-[#F7F3E8] drop-shadow-lg">
                             <SelectValue placeholder="Rarity"/>
                         </SelectTrigger>
                         <SelectContent>
@@ -90,17 +90,17 @@ export default function Treasure() {
                     </Select>
                 </div>
                 {treasureTable.length > 0 && (
-                    <div className="flex gap-2 min-w-screen max-w-screen">
+                    <div className="flex gap-2 overflow-x-auto">
                         <Table>
                             <TableHeader>
-                                <TableRow>
+                                <TableRow className="bg-[#CBB994]">
                                     <TableHead className="text-center">1d100</TableHead>
                                     <TableHead className="text-center">Item</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {treasureTable.slice(0, tableHalf).map((treasure) => (
-                                    <TableRow key={treasure.item}>
+                                {treasureTable.slice(0, tableHalf).map((treasure, index) => (
+                                    <TableRow key={treasure.item} className={`${index % 2 === 0 ? "bg-[#F7F3E8]" : "bg-[#EDE5D1]"} hover:bg-[#D8CBA8]`}>
                                         <TableCell>{treasure.dice}</TableCell>
                                         <TableCell>{treasure.item}</TableCell>
                                     </TableRow>
@@ -109,14 +109,14 @@ export default function Treasure() {
                         </Table>
                         <Table>
                             <TableHeader>
-                                <TableRow>
+                                <TableRow className="bg-[#CBB994]">
                                     <TableHead className="text-center">1d100</TableHead>
                                     <TableHead className="text-center">Item</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {treasureTable.slice(tableHalf).map((treasure) => (
-                                    <TableRow key={treasure.item}>
+                                {treasureTable.slice(tableHalf).map((treasure, index) => (
+                                    <TableRow key={treasure.item} className={`${index % 2 === 0 ? "bg-[#F7F3E8]" : "bg-[#EDE5D1]"} hover:bg-[#D8CBA8]`}>
                                         <TableCell>{treasure.dice}</TableCell>
                                         <TableCell>{treasure.item}</TableCell>
                                     </TableRow>

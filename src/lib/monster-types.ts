@@ -46,7 +46,7 @@ export interface Monster {
     vulnerable?: string[];
     resist?: string[];
     immune?: string[];
-    conditionImmune?: string[];
+    conditionImmune?: string[] | ConditionImune | ConditionImune[];
     pbNote?: string;
     familiar?: boolean;
     initiative?: { proficiency: number };
@@ -132,4 +132,9 @@ export interface MonsterSpellcasting {
     ability: string;
     displayAs: "action" | "bonus action" | "reaction" | "trait";
     hidden?: string[];
+}
+
+export interface ConditionImune {
+    conditionImmune: string[],
+    note: string
 }

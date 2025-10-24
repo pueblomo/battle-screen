@@ -38,8 +38,8 @@ export default function MainMenu() {
     }, [location])
 
     return (
-        <>
-            <div className="grid justify-items-center">
+        <div className="bg-[url('/background.png')] w-dvw min-h-dvh">
+            <div className="grid justify-items-center pt-8">
                 <NavigationMenu>
                     <NavigationMenuList>
                         <NavigationMenuItem>
@@ -67,6 +67,6 @@ export default function MainMenu() {
                 </NavigationMenu>
             </div>
             <Outlet/>
-        </>
+        </div>
     )
 }

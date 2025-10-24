@@ -27,7 +27,8 @@ export interface Spell {
 
 export interface SpellTime {
     number: number;
-    unit: "action" | "bonus action" | "reaction" | "minute" | "hour";
+    unit: "action" | "bonus" | "reaction" | "minute" | "hour";
+    condition?: string
 }
 
 export interface SpellRange {

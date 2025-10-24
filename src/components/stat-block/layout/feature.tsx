@@ -1,7 +1,7 @@
 import type {BaseMonsterFeature, Entry, EntryList, EntryListItem, MonsterSpellcasting} from "@/lib/monster-types.ts";
 import {Fragment, type ReactNode} from "react";
 import Title from "@/components/stat-block/layout/title.tsx";
-import {capitalizeFirstLetter} from "@/lib/utils.ts";
+import {replacePlaceholdersJsx} from "@/lib/utils.tsx";
 
 interface FeatureProps {
     monsterFeatures: BaseMonsterFeature[] | undefined,
@@ -9,88 +9,6 @@ interface FeatureProps {
     spells?: MonsterSpellcasting[] | undefined,
     display?: "action" | "bonus action" | "reaction" | "trait",
     children?: ReactNode
-}
-
-function replacePlaceholdersJsx(text: string): ReactNode {
-    const parts = text.split(/({@[^}]+})/g);
-
-    return (
-        <>
-            {parts.map((part, i) => {
-                const match = part.match(/{@([^}\s|]+)(?:\s([^}|]+))?(?:\|([^}]+))?}/);
-                if (!match) {
-                    // Plain text part
-                    return <span key={i}>{part}</span>;
-                }
-                const [, key, value, extra] = match;
-
-                switch (key) {
-                    case 'dice':
-                        return <Fragment key={i}>{value ?? ''}</Fragment>;
-                    case 'dc':
-                        return <Fragment key={i}>{`DC ${value}`}</Fragment>;
-                    case 'actSave':
-                        switch (value) {
-                            case 'wis':
-                                return <span key={i} className="italic">Wisdom Saving Throw:</span>;
-                            case 'str':
-                                return <span key={i} className="italic">Strength Saving Throw:</span>;
-                            case 'dex':
-                                return <span key={i} className="italic">Dexterity Saving Throw:</span>;
-                            case 'con':
-                                return <span key={i} className="italic">Constitution Saving Throw:</span>;
-                            case 'int':
-                                return <span key={i} className="italic">Intelligence Saving Throw:</span>;
-                            case 'cha':
-                                return <span key={i} className="italic">Charisma Saving Throw:</span>;
-                            default:
-                                return <Fragment
-                                    key={i}>{`${capitalizeFirstLetter(value ?? '')} Saving Throw:`}</Fragment>;
-                        }
-                    case 'actSaveFail':
-                        return <span key={i} className="italic">Failure:</span>
-                    case 'actSaveSuccess':
-                        return <span key={i} className="italic">Success:</span>;
-                    case 'actSaveSuccessOrFail':
-                        return <span key={i} className="italic">Failure or Success:</span>;
-                    case 'condition':
-                        return <Fragment key={i}>{capitalizeFirstLetter(value ?? '')}</Fragment>;
-                    case 'variantrule': {
-                        const presentedValue = capitalizeFirstLetter(value.split("|")[0] ?? '')
-                        return <Fragment key={i}>{presentedValue.replace(/\[.*?]/g, "")}</Fragment>;
-                    }
-                    case 'damage':
-                        return <Fragment key={i}>{value ?? ''}</Fragment>;
-                    case 'atkr':
-                        switch (value) {
-                            case 'm':
-                                return <span key={i} className="italic">Melee Attack Roll:</span>;
-                            default:
-                                return <span key={i} className="italic">Ranged Attack Roll:</span>;
-                        }
-                    case 'hit':
-                        return <Fragment key={i}>{`+${value}`}</Fragment>;
-                    case 'h':
-                        return <span key={i} className="italic">Hit: </span>
-                    case 'action':
-                    case 'spell':
-                    case 'status':
-                        return <Fragment key={i}>{capitalizeFirstLetter(value.split("|")[0])}</Fragment>;
-                    case 'hom':
-                        return <span key={i} className="italic">Hit or Miss: </span>;
-                    case 'recharge':
-                        return <span key={i}>(Recharge {value}-6)</span>
-                    default: {
-                        if (key.startsWith('act')) {
-                            return <span key={i} className="italic">{key.replace('act', '')}: </span>
-                        }
-                        return <Fragment
-                            key={i}>{`{@${key}${value ? ' ' + value : ''}${extra ? '|' + extra : ''}}`}</Fragment>;
-                    }
-                }
-            })}
-        </>
-    );
 }
 
 function isEntryList(entry: Entry): entry is EntryList {

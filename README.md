@@ -11,9 +11,14 @@ A comprehensive web application designed to assist Dungeon Masters and players i
 
 ### ⚔️ Battleground
 - Display selected monster stat blocks in a clean, organized layout
-- Traditional D&D stat block styling with parchment background
+- Traditional D&D stat block styling with authentic parchment background texture
 - View multiple monsters simultaneously for encounter management
 - Complete stat information including abilities, actions, and special features
+- **Interactive Spell System**: Hover over spell names to view spell details including:
+  - Casting time, range, and level
+  - Full spell description with formatted entries
+  - Higher level casting effects
+  - Integrated with complete D&D 5e spell database
 
 ### 💎 Treasure Generator
 - Generate random treasure based on item type and rarity
@@ -26,13 +31,14 @@ A comprehensive web application designed to assist Dungeon Masters and players i
 
 - **Framework**: React 19 with TypeScript
 - **Build Tool**: Vite 7
-- **Styling**: TailwindCSS 4
+- **Styling**: TailwindCSS 4 with custom parchment-themed color palette
 - **UI Components**: Radix UI primitives with shadcn/ui
-- **Data Tables**: TanStack Table
+- **Data Tables**: TanStack Table with custom styling
 - **Routing**: React Router 7
 - **HTTP Client**: Axios with caching interceptor
 - **CSV Parsing**: PapaParse
 - **Icons**: Lucide React
+- **Fonts**: Libre Baskerville for authentic fantasy aesthetic
 
 ## Getting Started
 
@@ -183,31 +189,54 @@ battle-screen/
 
 The application uses local data files stored in the `public/` directory:
 
-- **Monster Data**: `bestiary-mm.json` - Complete Monster Manual bestiary
+- **Monster Data**: `bestiary-mm.json` - Complete Monster Manual bestiary (D&D 5e 2024)
+- **Spell Data**: `spells.json` - Complete spell database with descriptions and mechanics
 - **Treasure Tables**: CSV files organized by item type and rarity
   - Format: `{type}-{rarity}.csv` (e.g., `armaments-rare.csv`)
 - **Item Rarity Reference**: `item-rarity.csv` - Level-based rarity guidelines
+- **Visual Assets**: `statblockparch.jpg`, `background.png` - Themed backgrounds
+
+## UI/UX Design
+
+The application features a custom parchment-themed design for an authentic tabletop RPG experience:
+
+- **Color Palette**: Warm parchment tones (#F7F3E8, #EDE5D1, #CBB994, #BBAE89)
+- **Typography**: Libre Baskerville serif font for fantasy aesthetic
+- **Backgrounds**: Textured parchment images for stat blocks and main background
+- **Interactive Elements**: 
+  - Alternating row colors in tables for readability
+  - Hover states with color transitions
+  - Drop shadows for depth and hierarchy
+  - Visible checkboxes with contrasting borders
 
 ## Features in Detail
 
 ### Monster Selection
 - Search and filter monsters by name, type, CR, etc.
-- Multi-select capability to build encounters
+- Multi-select capability with visible checkboxes to build encounters
 - Persistent selection across navigation
+- Sortable columns for easy organization
+- Themed data table with alternating row colors and hover states
+- Clear filter and selection buttons for quick resets
 
 ### Stat Block Display
-- Authentic D&D 5e stat block layout
+- Authentic D&D 5e stat block layout with parchment texture
 - Displays all monster attributes:
   - Ability scores and modifiers
   - Armor Class, Hit Points, Speed
   - Skills, Saves, Resistances, Immunities
-  - Actions, Legendary Actions, Special Abilities
-  - Challenge Rating and XP
+  - Condition immunities with notes (e.g., "Charmed (with Mind Blank)")
+  - Actions, Bonus Actions, Reactions, Legendary Actions
+  - Spellcasting with interactive spell tooltips
+  - Traits and Special Abilities
+  - Challenge Rating, XP, and Proficiency Bonus
 
 ### Treasure Generation
 - Dynamic table loading based on selection
 - Split-view display for longer treasure lists
 - Reference table for appropriate rarity by party level
+- Themed table styling with alternating row colors
+- Responsive layout with overflow handling
 
 ## Contributing
 

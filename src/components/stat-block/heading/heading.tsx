@@ -1,4 +1,4 @@
-import {capitalizeFirstLetter, getMonsterType} from "@/lib/utils.ts";
+import {capitalizeFirstLetter, getMonsterType} from "@/lib/utils.tsx";
 import Divider from "@/components/stat-block/layout/divider.tsx";
 import type {Monster} from "@/lib/monster-types.ts";
 

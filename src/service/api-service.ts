@@ -2,6 +2,7 @@ import {setupCache} from "axios-cache-interceptor";
 import axios from "axios";
 import type {Monster} from "@/lib/monster-types.ts";
 import Papa from "papaparse"
+import type {Spell} from "@/lib/spell-types.ts";
 
 export type TreasureRow = {
     dice: string,
@@ -27,6 +28,10 @@ const api = setupCache(axios, {
 
 export function apiGetMonsters(path: string) {
     return api.get<{ monster: Monster[] }>(path)
+}
+
+export function apiGetSpells(path: string) {
+    return api.get<{ spell: Spell[] }>(path)
 }
 
 export async function apiGetTreasureTable(type: string, rarity: string): Promise<TreasureRow[]> {
