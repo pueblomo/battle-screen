@@ -10,7 +10,7 @@ interface MonsterContextType {
 }
 
 const PATHS = [
-    "/bestiary-mm.json",
+    `${import.meta.env.BASE_URL}bestiary-mm.json`,
 ]
 
 const MonsterContext = createContext<MonsterContextType>({

@@ -7,7 +7,7 @@ interface SpellContextType {
     findSpell: (name: string) => Spell | undefined
 }
 
-const PATH = "/spells.json"
+const PATH = `${import.meta.env.BASE_URL}spells.json`
 
 const SpellContext = createContext<SpellContextType>({
     spells: [],

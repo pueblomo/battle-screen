@@ -16,19 +16,20 @@ export default function MainMenu() {
     const location = useLocation()
 
     useEffect(() => {
-        if (location.pathname === "/" || location.pathname === "") {
+        const path = location.pathname
+        if (path === "/" || path === "") {
             setActiveToggle({
                 monster: true,
                 battleground: false,
                 treasure: false
             })
-        } else if (location.pathname === "/battleground") {
+        } else if (path.endsWith("/battleground")) {
             setActiveToggle({
                 monster: false,
                 battleground: true,
                 treasure: false
             })
-        } else {
+        } else if (path.endsWith("/treasure")) {
             setActiveToggle({
                 monster: false,
                 battleground: false,
@@ -38,7 +39,7 @@ export default function MainMenu() {
     }, [location])
 
     return (
-        <div className="bg-[url('/background.png')] w-dvw min-h-dvh">
+        <div style={{backgroundImage: `url('${import.meta.env.BASE_URL}background.png')`}} className="w-dvw min-h-dvh">
             <div className="grid justify-items-center pt-8">
                 <NavigationMenu>
                     <NavigationMenuList>

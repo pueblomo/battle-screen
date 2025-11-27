@@ -14,7 +14,7 @@ import {SpellProvider} from "@/contexts/spell-context.tsx";
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-            <BrowserRouter>
+            <BrowserRouter basename={import.meta.env.BASE_URL}>
                 <MonsterProvider>
                     <SpellProvider>
                         <DatatableProvider>

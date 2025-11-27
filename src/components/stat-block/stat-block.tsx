@@ -11,7 +11,8 @@ export default function StatBlock({monster}: StatBlockProps) {
     return (
         <div className="inline-block min-w-[400px] max-w-[400px] rounded-lg">
             <div
-                className="bg-[url('/statblockparch.jpg')] px-2.5 py-5 rounded-lg border-4 border-orange-200 drop-shadow-lg">
+                style={{backgroundImage: `url('${import.meta.env.BASE_URL}statblockparch.jpg')`}}
+                className="px-2.5 py-5 rounded-lg border-4 border-orange-200 drop-shadow-lg">
                 <div className="grid gap-2">
                     <Heading monster={monster}/>
                     <Properties monster={monster}/>

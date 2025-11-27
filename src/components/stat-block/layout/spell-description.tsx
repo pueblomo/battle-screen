@@ -36,7 +36,7 @@ function styleTime(time: SpellTime): ReactNode {
 }
 
 function styleRange(spellRange: SpellRange): ReactNode {
-    let text = ""
+    let text: string
     if (spellRange.distance?.amount) {
         text = `${spellRange.distance.amount} ${spellRange.distance.type}`
     } else {
@@ -84,7 +84,8 @@ export default function SpellDescription({name}: SpellDescriptionProps) {
                     className="text-red-800 underline font-[family-name:--font-family-libre-baskerville]">{name}</span>
             </PopoverTrigger>
             <PopoverContent
-                className="bg-[url('/statblockparch.jpg')] drop-shadow-lg shadow-gray-700 text-xs border-4 border-orange-200 font-[family-name:--font-family-libre-baskerville]">
+                style={{backgroundImage: `url('${import.meta.env.BASE_URL}statblockparch.jpg')`}}
+                className="drop-shadow-lg shadow-gray-700 text-xs border-4 border-orange-200 font-[family-name:--font-family-libre-baskerville]">
                 <p className="font-bold text-sm text-red-800">{name}</p>
                 <p className="italic text-xs">Level {spell.level}</p>
                 <p><span className="font-bold">Casting Time:</span> {styleTime(spell.time[0])}</p>

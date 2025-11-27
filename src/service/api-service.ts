@@ -35,7 +35,7 @@ export function apiGetSpells(path: string) {
 }
 
 export async function apiGetTreasureTable(type: string, rarity: string): Promise<TreasureRow[]> {
-    const result = await api.get(`/${type}-${rarity}.csv`)
+    const result = await api.get(`${import.meta.env.BASE_URL}${type}-${rarity}.csv`)
     const parsed = Papa.parse<Record<string, string>>(result.data, papaConfig)
     return parsed.data.map((row) => (
         {
@@ -46,7 +46,7 @@ export async function apiGetTreasureTable(type: string, rarity: string): Promise
 }
 
 export async function getItemRarityTable(): Promise<RarityRow[]> {
-    const result = await api.get("/item-rarity.csv")
+    const result = await api.get(`${import.meta.env.BASE_URL}item-rarity.csv`)
     const parsed = Papa.parse<Record<string, string>>(result.data, papaConfig)
     return parsed.data.map((row) =>
         ({
