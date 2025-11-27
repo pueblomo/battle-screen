@@ -7,7 +7,7 @@ interface FeatureProps {
     monsterFeatures: BaseMonsterFeature[] | undefined,
     title: string,
     spells?: MonsterSpellcasting[] | undefined,
-    display?: "action" | "bonus action" | "reaction" | "trait",
+    display?: "action" | "bonus" | "reaction" | "trait" | "legendary",
     children?: ReactNode
 }
 
@@ -90,7 +90,7 @@ export default function Feature({title, children, monsterFeatures, spells, displ
         return (
             <div className="grid gap-2 text-xs text-left text-black pt-2">
                 <div>
-                    <span className="italic font-bold">Spellcasting.</span>
+                    <span className="italic font-bold">{replacePlaceholdersJsx(monsterSpellCasting.name)}.</span>
                     <span> {styleEntry(monsterSpellCasting.headerEntries[0], key)}</span>
                 </div>
                 <div className="pl-6 indent-[-1.5rem]">

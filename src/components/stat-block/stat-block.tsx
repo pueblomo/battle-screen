@@ -26,14 +26,16 @@ export default function StatBlock({monster}: StatBlockProps) {
                     )}
                     {(monster.bonus || monster.spellcasting) && (
                         <Feature monsterFeatures={monster.bonus} title={"Bonus Actions"} spells={monster.spellcasting}
-                                 display={"bonus action"}/>
+                                 display={"bonus"}/>
                     )}
                     {(monster.reaction || monster.spellcasting) && (
                         <Feature monsterFeatures={monster.reaction} title={"Reactions"} spells={monster.spellcasting}
                                  display={"reaction"}/>
                     )}
-                    {monster.legendary && (
-                        <Feature monsterFeatures={monster.legendary} title={"Legendary Actions"}>
+                    {(monster.legendary || monster.spellcasting) && (
+                        <Feature monsterFeatures={monster.legendary} title={"Legendary Actions"}
+                                 spells={monster.spellcasting}
+                                 display={"legendary"}>
                             <div
                                 className="italic text-gray-600 text-xs text-left mb-2">Legendary Action Uses:
                                 3 {monster.legendaryActionsLair ? `(${monster.legendaryActionsLair} in Lair)` : ``}.
