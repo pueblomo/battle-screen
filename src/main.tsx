@@ -2,7 +2,7 @@ import {StrictMode} from 'react'
 import {createRoot} from 'react-dom/client'
 import './index.css'
 import App from './pages/App.tsx'
-import {BrowserRouter, Route, Routes} from "react-router";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router";
 import {MonsterProvider} from "./contexts/monster-context.tsx";
 import MainMenu from "@/components/main-menu/main-menu.tsx";
 import Battleground from "@/pages/battleground/Battleground.tsx";
@@ -23,6 +23,7 @@ createRoot(document.getElementById('root')!).render(
                                     <Route path="/" element={<App/>}/>
                                     <Route path="/battleground" element={<Battleground/>}/>
                                     <Route path="/treasure" element={<Treasure/>}/>
+                                    <Route path="*" element={<Navigate to="/" replace/>}/>
                                 </Route>
                             </Routes>
                         </DatatableProvider>
