@@ -7,6 +7,10 @@ on:
     branches: [main]
 
 jobs:
+  checks:
+    name: Run Checks
+    needs: [Lint, Test, Build]
+    runs-on: ubuntu-latest
   lint:
     name: Lint
     runs-on: ubuntu-latest
