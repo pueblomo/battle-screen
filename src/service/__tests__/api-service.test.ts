@@ -13,7 +13,8 @@ import {
   apiGetMonsters,
   apiGetSpells,
   apiGetTreasureTable,
-  getItemRarityTable,
+  apiGetItemRarityTable,
+  apiGetTreasureMoneyTable,
 } from "../api-service";
 
 vi.stubEnv("BASE_URL", "http://test.com/");
@@ -151,7 +152,7 @@ describe("getItemRarityTable", () => {
       }),
     );
 
-    const result = await getItemRarityTable();
+    const result = await apiGetItemRarityTable();
 
     expect(result).toHaveLength(5);
     expect(result[2]).toEqual({
@@ -160,6 +161,28 @@ describe("getItemRarityTable", () => {
       level3: "35–70",
       level4: "01–20",
       rarity: "Rare",
+    });
+  });
+});
+
+describe("getTreasureMoneyTable", () => {
+  it("transforms CSV data to MoneyRow format", async () => {
+    server.use(
+      http.get("*/treasure-money.csv", () => {
+        return new HttpResponse(`"CR","Treasure"
+"0-4","3d6 (10) GP"
+"5-10","2d8 x 10 (90) GP"
+"11-16","2d10 x 10 (110) GP"
+"17+","2d8 x 100 (900) GP"`);
+      }),
+    );
+
+    const result = await apiGetTreasureMoneyTable();
+
+    expect(result).toHaveLength(4);
+    expect(result[2]).toEqual({
+      cr: "11-16",
+      treasure: "2d10 x 10 (110) GP",
     });
   });
 });

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import {
   apiGetTreasureTable,
-  getItemRarityTable,
+  apiGetItemRarityTable,
   type RarityRow,
   type TreasureRow,
+  apiGetTreasureMoneyTable,
+  type MoneyRow,
 } from "@/service/api-service.ts";
 import {
   Table,
@@ -25,12 +27,13 @@ import {
 export default function Treasure() {
   const [rarityTable, setRarityTable] = useState<RarityRow[]>([]);
   const [treasureTable, setTreasureTable] = useState<TreasureRow[]>([]);
+  const [moneyTable, setMoneyTable] = useState<MoneyRow[]>([]);
   const [tableHalf, setTableHalf] = useState<number>(0);
   const [type, setType] = useState<string>("");
   const [rarity, setRarity] = useState<string>("");
 
   async function getRarityTable() {
-    const result = await getItemRarityTable();
+    const result = await apiGetItemRarityTable();
     setRarityTable(result);
   }
 
@@ -39,8 +42,14 @@ export default function Treasure() {
     setTreasureTable(result);
   }
 
+  async function getMoneyTable() {
+    const result = await apiGetTreasureMoneyTable();
+    setMoneyTable(result);
+  }
+
   useEffect(() => {
     void getRarityTable();
+    void getMoneyTable();
   }, []);
 
   useEffect(() => {
@@ -78,6 +87,28 @@ export default function Treasure() {
                 <TableCell>{rarityItem.level3}</TableCell>
                 <TableCell>{rarityItem.level4}</TableCell>
                 <TableCell>{rarityItem.rarity}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
+      {moneyTable.length > 0 && (
+        <Table>
+          <TableCaption>Money Treasure</TableCaption>
+          <TableHeader>
+            <TableRow className="bg-[#CBB994]">
+              <TableHead className="text-center">CR</TableHead>
+              <TableHead className="text-center">Treasure</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {moneyTable.map((moneyItem, index) => (
+              <TableRow
+                key={moneyItem.cr}
+                className={`${index % 2 === 0 ? "bg-[#F7F3E8]" : "bg-[#EDE5D1]"} hover:bg-[#D8CBA8]`}
+              >
+                <TableCell>{moneyItem.cr}</TableCell>
+                <TableCell>{moneyItem.treasure}</TableCell>
               </TableRow>
             ))}
           </TableBody>
