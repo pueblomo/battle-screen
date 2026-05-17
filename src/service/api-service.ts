@@ -22,6 +22,27 @@ export type MoneyRow = {
   treasure: string;
 };
 
+export type ItemEntry =
+  | string
+  | {
+      type?: string;
+      name?: string;
+      caption?: string;
+      entries?: ItemEntry[];
+      items?: ItemEntry[];
+      colLabels?: string[];
+      rows?: ItemEntry[][];
+    };
+
+export type ItemDetail = {
+  name: string;
+  source?: string;
+  rarity?: string;
+  reqAttune?: boolean | string;
+  type?: string;
+  entries?: ItemEntry[];
+};
+
 const papaConfig = {
   header: true,
   skipEmptyLines: true,
@@ -72,4 +93,38 @@ export async function apiGetTreasureMoneyTable(): Promise<MoneyRow[]> {
     cr: row["CR"],
     treasure: row["Treasure"],
   }));
+}
+
+function getItemsFromPayload(payload: unknown): ItemDetail[] {
+  if (typeof payload !== "object" || payload === null) return [];
+
+  const record = payload as Record<string, unknown>;
+  return ["item", "baseitem", "magicvariant"].flatMap((key) => {
+    const value = record[key];
+    if (!Array.isArray(value)) return [];
+    return value.filter(
+      (item): item is ItemDetail =>
+        typeof item === "object" &&
+        item !== null &&
+        typeof (item as { name?: unknown }).name === "string",
+    );
+  });
+}
+
+export async function apiGetItemDetails(): Promise<ItemDetail[]> {
+  const itemFiles = ["items.json", "items-base.json", "magicvariants.json"];
+  const itemGroups = await Promise.all(
+    itemFiles.map(async (fileName) => {
+      try {
+        const result = await api.get(`${import.meta.env.BASE_URL}${fileName}`, {
+          cache: false,
+        });
+        return getItemsFromPayload(result.data);
+      } catch {
+        return [];
+      }
+    }),
+  );
+
+  return itemGroups.flat();
 }

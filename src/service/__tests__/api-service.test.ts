@@ -15,6 +15,7 @@ import {
   apiGetTreasureTable,
   apiGetItemRarityTable,
   apiGetTreasureMoneyTable,
+  apiGetItemDetails,
 } from "../api-service";
 
 vi.stubEnv("BASE_URL", "http://test.com/");
@@ -184,5 +185,71 @@ describe("getTreasureMoneyTable", () => {
       cr: "11-16",
       treasure: "2d10 x 10 (110) GP",
     });
+  });
+});
+
+describe("apiGetItemDetails", () => {
+  it("loads item records from all item data files", async () => {
+    server.use(
+      http.get("*/items.json", () => {
+        return HttpResponse.json({
+          item: [
+            {
+              name: "Bag of Beans",
+              rarity: "rare",
+              entries: ["This bag is made from heavy cloth."],
+            },
+          ],
+        });
+      }),
+      http.get("*/items-base.json", () => {
+        return HttpResponse.json({
+          baseitem: [
+            {
+              name: "Longsword",
+              source: "XPHB",
+              entries: ["A martial melee weapon."],
+            },
+          ],
+        });
+      }),
+      http.get("*/magicvariants.json", () => {
+        return HttpResponse.json({
+          magicvariant: [
+            {
+              name: "Weapon, +1",
+              rarity: "uncommon",
+              entries: ["You have a bonus to attack and damage rolls."],
+            },
+          ],
+        });
+      }),
+    );
+
+    const result = await apiGetItemDetails();
+
+    expect(result.map((item) => item.name)).toEqual([
+      "Bag of Beans",
+      "Longsword",
+      "Weapon, +1",
+    ]);
+  });
+
+  it("ignores item files that do not contain JSON item records", async () => {
+    server.use(
+      http.get("*/items.json", () => {
+        return new HttpResponse("<!DOCTYPE html>", {
+          headers: { "Content-Type": "text/html" },
+        });
+      }),
+      http.get("*/items-base.json", () => {
+        return HttpResponse.json({ baseitem: [] });
+      }),
+      http.get("*/magicvariants.json", () => {
+        return HttpResponse.json({ magicvariant: [] });
+      }),
+    );
+
+    await expect(apiGetItemDetails()).resolves.toEqual([]);
   });
 });

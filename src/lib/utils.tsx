@@ -149,6 +149,10 @@ export function replacePlaceholdersJsx(text: string): ReactNode {
                 const [, key, value, extra] = match;
 
                 switch (key) {
+                    case 'b':
+                        return <span key={i} className="font-bold">{value ?? ''}</span>;
+                    case 'i':
+                        return <span key={i} className="italic">{value ?? ''}</span>;
                     case 'dice':
                         return <Fragment key={i}>{value ?? ''}</Fragment>;
                     case 'dc':
